@@ -1,4 +1,3 @@
-//your JS code here. If required.
 const submitBtn = document.getElementById('submit');
 const gameDiv = document.getElementById('game');
 const formDiv = document.getElementById('player-form');
@@ -8,7 +7,7 @@ const cells = document.querySelectorAll('.cell');
 let player1 = '';
 let player2 = '';
 let currentPlayer = '';
-let currentSymbol = 'X';
+let currentSymbol = 'x';
 let gameActive = true;
 
 const winPatterns = [
@@ -19,13 +18,10 @@ const winPatterns = [
 
 // Start Game
 submitBtn.addEventListener('click', () => {
-  player1 = document.getElementById('player-1').value;
-  player2 = document.getElementById('player-2').value;
+  player1 = document.getElementById('player1').value;
+  player2 = document.getElementById('player2').value;
 
-  if (player1 === '' || player2 === '') {
-    alert('Please enter both player names');
-    return;
-  }
+  if (player1 === '' || player2 === '') return;
 
   currentPlayer = player1;
   messageDiv.textContent = `${currentPlayer}, you're up`;
@@ -42,9 +38,7 @@ cells.forEach(cell => {
     cell.textContent = currentSymbol;
     checkWinner();
 
-    if (gameActive) {
-      switchPlayer();
-    }
+    if (gameActive) switchPlayer();
   });
 });
 
@@ -52,10 +46,10 @@ cells.forEach(cell => {
 function switchPlayer() {
   if (currentPlayer === player1) {
     currentPlayer = player2;
-    currentSymbol = 'O';
+    currentSymbol = 'o';
   } else {
     currentPlayer = player1;
-    currentSymbol = 'X';
+    currentSymbol = 'x';
   }
   messageDiv.textContent = `${currentPlayer}, you're up`;
 }
@@ -65,13 +59,8 @@ function checkWinner() {
   const values = {};
   cells.forEach(cell => values[cell.id] = cell.textContent);
 
-  for (let pattern of winPatterns) {
-    const [a, b, c] = pattern;
-    if (
-      values[a] &&
-      values[a] === values[b] &&
-      values[a] === values[c]
-    ) {
+  for (let [a, b, c] of winPatterns) {
+    if (values[a] && values[a] === values[b] && values[a] === values[c]) {
       messageDiv.textContent = `${currentPlayer} congratulations you won!`;
       gameActive = false;
       return;
